@@ -1,0 +1,16 @@
+.kickstart-ballot { float: left; width: 50px; border: 1px solid #ccc; padding: 5px 0 5px 5px; margin-right: 10px;   }
+
+.kickstart-ballot .kickstart-vote {
+	width: 0; 
+	height: 0; 
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	float: left; 
+	cursor: pointer;
+	clear: both;
+	margin-right: 10px; 
+}
+
+.kickstart-ballot .up { border-bottom: 10px solid green; margin-bottom; 5px; }
+.kickstart-ballot .down { border-top: 10px solid red; margin-top: 5px; }
+.kickstart-ballot .kickstart-score { font-weight: bold; }
