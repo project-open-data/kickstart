@@ -11,7 +11,15 @@ jQuery(document).ready(function($){
 					action: 'kickstart_vote', 
 					post_ID: $(this).parent().attr( 'data-post-id' )
 				},	
-			success: function( data ) {	score.text( data ); }	
+			success: function( data ) {	score.text( data ); },
+			error: function( a, b, error ) {
+				
+				if ( error != 'Forbidden' )
+					return;
+				
+				document.location.href = kickstart.loginURL;
+				
+			}	
 		})
 	});
 	

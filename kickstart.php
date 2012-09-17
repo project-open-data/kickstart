@@ -38,7 +38,7 @@ License: GPLv3 or Later
  */
  
 //load templating functions
-include dirname( __FILE__ ) . 'templating.php';
+include dirname( __FILE__ ) . '/templating.php';
  
 class Kickstart {
 	
@@ -58,6 +58,7 @@ class Kickstart {
 		add_action( 'init', array( $this, 'register_cpt' ) );
 		add_action( 'init', array( $this, 'register_cts' ) );
 		add_action( 'wp_ajax_kickstart_vote', array( $this, 'ajax_vote_handler' ) );
+		add_action( 'wp_ajax_nopriv_kickstart_vote', array( $this, 'ajax_must_login_handler' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_js' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_css' ) );
 		add_filter( 'the_content', array( $this, 'content_filter' ) );
@@ -66,6 +67,7 @@ class Kickstart {
 		add_filter( 'feed_link', array( $this, 'feed_link_filter' ) );
 		add_filter( 'parse_request', array( $this, 'request_filter' ) );
 		add_action( 'save_post', array( $this, 'calculate_score_on_save' ) );
+		add_action( 'login_message', array( $this, 'login_message' ) );
 
 		register_activation_hook( __FILE__, 'flush_rewrite_rules' );
 
@@ -340,12 +342,13 @@ class Kickstart {
 		
 		$js = ( WP_DEBUG ) ? 'js/js.dev.js' : 'js/js.js';
 		wp_enqueue_script( 'kickstart', plugins_url( $js, __FILE__ ), array( 'jquery' ), $this->version, true );
-		
+				
 		$l10n = array( 
 			'ajaxEndpoint' => admin_url( 'admin-ajax.php' ),
+			'loginURL' => add_query_arg( 'message', 'kickstart_login_required', wp_login_url( esc_url( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ) ) ),
 		);
 		
-		if ( isset( $post->ID ) )
+		if ( isset( $post->ID ) ) 
 			$l10n['post_ID'] = $post->ID;
 
 		wp_localize_script( 'kickstart', 'kickstart', $l10n );
@@ -466,6 +469,27 @@ class Kickstart {
 			return; 
 			
 		$this->store_score( $post );
+		
+	}
+	
+	function ajax_must_login_handler() {
+		
+		status_header( 403 );
+		die( -1 );
+		
+	}
+	
+	function login_message( $message ) {
+		
+		if ( !$_GET['message'] )
+			return $message;
+			
+		if ( $_GET['message'] != 'kickstart_login_required' )
+			return $message;
+			
+		$msg .= '<div class="error" style="margin-bottom: 20px; font-weight: bold; padding: 5px; ">' . __( 'You must login or register below before you can vote or comment', 'kickstart' ) . '</div>';
+		
+		return $msg;
 		
 	}
 	
