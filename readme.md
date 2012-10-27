@@ -3,6 +3,18 @@ Kickstart
 
 A WordPress plugin to help agencies kickstart their open data efforts by allowing citizens to browse existing datasets and vote for suggested priorities.
 
+
+What Problem This Solves
+------------------------
+
+The Open Data Policy requires agencies to engage with the public and see which datasets are more requested than others.  
+
+
+How This Solves It
+------------------
+The 'kickstart' project takes the information in their data.json file and provides instant ability to enable this voting.
+
+
 How it Works
 ------------
 
