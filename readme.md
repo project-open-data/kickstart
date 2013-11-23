@@ -15,10 +15,14 @@ How This Solves It
 The 'kickstart' project takes the information in their data.json file and provides instant ability to enable this voting.
 
 
-How it Works
+How It Works
 ------------
 
 The plugin registers a custom post type "datasets" and two custom taxonomies, "agencies", and "statuses" to organize them. Visitors to the site will be presented with the opportunity to browse and search, upvote or downvote, and comment on datasets, both public and potential. 
+
+Requirements
+------------
+WordPress 3.5 or newer
 
 Installation
 ------------
