@@ -340,7 +340,7 @@ class Kickstart {
 		
 		global $post;
 		
-		$js = ( WP_DEBUG ) ? 'js/js.dev.js' : 'js/js.js';
+		$js = ( WP_DEBUG ) ? 'js/js.dev.js' : 'js/js.dev.js';
 		wp_enqueue_script( 'kickstart', plugins_url( $js, __FILE__ ), array( 'jquery' ), $this->version, true );
 				
 		$l10n = array( 
@@ -462,7 +462,7 @@ class Kickstart {
 	 */
 	function calculate_score_on_save( $post ) {
 		
-		if ( wp_is_post_revision() || wp_is_post_autosave() )
+		if ( wp_is_post_revision($post) || wp_is_post_autosave($post) )
 			return;
 			
 		if ( get_post_type( $post ) != $this->cpt )
